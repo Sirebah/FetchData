@@ -1,12 +1,26 @@
+let users = [];
+
 function handleResponse(response) {
   return response.json();
 }
 
 const handleData = (data) => {
   let tableBody = document.getElementById("table-body");
-  tableBody.innerHTML = ""; 
-  let userLines = "";
-  for (let i = 0; i < data.length; i++) {
+  tableBody.innerHTML = "";
+  //let userLines = "";
+  users = data;
+
+  // utilisation avec un map qui est une fonction des tableaux pour éviter les boucles
+  const userAsTable = users.map(
+    (user) =>
+      `<tr>
+      <td>${user.name}</td>
+      <td>${user.phone}</td>
+      <td>${user.email}</td>
+    </tr>`
+  );
+  // Deprecated c'est à dire c'est revolu je peux utiliser map qui est fonction des tableaux pour transformer les données
+  /*for (let i = 0; i < data.length; i++) {
     const user = data[i];
     let userLine = `<tr>
             <td>${user.name}</td>
@@ -14,9 +28,31 @@ const handleData = (data) => {
             <td>${user.email}</td>            
         <tr>`;
     userLines += userLine;
-  }
-  tableBody.innerHTML = userLines;
+  }*/
+  tableBody.innerHTML = userAsTable.join("");
 };
+
+// Recherche un utilisateur par son nom
+
+function searchUser() {
+  const searchInput = document.getElementById("search");
+  const searchValue = searchInput.value;
+  let tableBody = document.getElementById("table-body");
+
+  const searchUser = users
+    .filter((user) => {
+      return user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+    })
+    .map(
+      (user) =>
+        `<tr>
+    <td>${user.name}</td>
+    <td>${user.phone}</td>
+    <td>${user.email}</td>
+  </tr>`
+    );
+  tableBody.innerHTML = searchUser.join("");
+}
 
 const handleData1 = (data) => {
   let userline = document.getElementById("grid-user");
