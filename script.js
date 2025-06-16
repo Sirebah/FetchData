@@ -79,8 +79,56 @@ function searchUser() {
     gridBody.innerHTML = userFilter.join("");
   }
 }
+//Trier les utilisateurs par nom
+document.querySelector("#sort-select").addEventListener("change", () => {
+  sortUsers();
+});
 
+function sortUsers() {
+  const tableBody = document.getElementById("table-body");
+  const gridBody = document.getElementById("grid-user");
+  const gridContainer = document.getElementById("container-grid");
+  const selecta = document.querySelector("#sort-select");
+  const sortValue = selecta.value;
 
+  if (!tableBody.classList.contains("d-none")) {
+    if (sortValue === "1") {
+      users.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    if (sortValue === "2") {
+      users.sort((a, b) => b.phone.localeCompare(a.phone));
+    }
+    if (sortValue === "3") {
+      users.sort((a, b) => a.email.localeCompare(b.email));
+    }
+
+    handleData(users);
+  }
+  if (!gridContainer.classList.contains("d-none")) {
+    // Trier les utilisateurs par nom de façon aphabétique methode classique trouvée sur la documentation MDN
+    if (sortValue === "1") {
+      users.sort((a, b) => {
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    if (sortValue === "2") {
+      users.sort((a, b) => a.phone - b.phone);
+    }
+    if (sortValue === "3") {
+      users.sort((a, b) => a.email.localeCompare(b.email));
+    }
+
+    handleData1(users);
+  }
+}
 
 // Afficher les données sur une grille
 
