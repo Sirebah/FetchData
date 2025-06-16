@@ -3,7 +3,7 @@ let users = [];
 function handleResponse(response) {
   return response.json();
 }
-
+// Aficher les données sur un tableau
 const handleData = (data) => {
   let tableBody = document.getElementById("table-body");
   tableBody.innerHTML = "";
@@ -37,22 +37,52 @@ const handleData = (data) => {
 function searchUser() {
   const searchInput = document.getElementById("search");
   const searchValue = searchInput.value;
-  let tableBody = document.getElementById("table-body");
 
-  const searchUser = users
-    .filter((user) => {
-      return user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-    })
-    .map(
-      (user) =>
-        `<tr>
+  const tableBody = document.getElementById("table-body");
+  const gridBody = document.getElementById("grid-user");
+  const gridContainer = document.getElementById("container-grid");
+
+  if (!tableBody.classList.contains("d-none")) {
+    const userFilter = users
+      .filter((user) => {
+        return (
+          user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+        );
+      })
+      .map(
+        (user) =>
+          `<tr>
     <td>${user.name}</td>
     <td>${user.phone}</td>
     <td>${user.email}</td>
   </tr>`
-    );
-  tableBody.innerHTML = searchUser.join("");
+      );
+    tableBody.innerHTML = userFilter.join("");
+  }
+  if (!gridContainer.classList.contains("d-none")) {
+    const userFilter = users
+      .filter((user) => {
+        return user.name.toLowerCase().includes(searchValue.toLowerCase());
+      })
+      .map(
+        (user) =>
+          `
+      <div class="col-6">
+            <div class="p-3 border border-1 border-dark equal-height">
+            <h5>${user.name}</h5>
+            <p>${user.phone}</p>
+            <p>${user.email}</p>
+            </div>
+      </div>
+    `
+      );
+    gridBody.innerHTML = userFilter.join("");
+  }
 }
+
+
+
+// Afficher les données sur une grille
 
 const handleData1 = (data) => {
   let userline = document.getElementById("grid-user");
@@ -75,6 +105,7 @@ const handleData1 = (data) => {
   userline.innerHTML = userLines;
 };
 
+// Fonction pour récupérer les utilisateurs depuis l'API
 function fetchUsers() {
   fetch("https://jsonplaceholder.typicode.com/users")
     .then((response) => handleResponse(response))

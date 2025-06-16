@@ -29,15 +29,34 @@
         </div>
       </div>
 
-      <div class="mb-3 mt-3">
-        <input
-          type="text"
-          class="form-control"
-          id="search"
-          placeholder="Rechercher un utilisateur par son nom"
-          onkeyup="searchUser()"
-        />
-      </div>
+      <form class="row g-2 mt-3 mb-3">
+        <div class="col-md-9">
+          <input
+            type="text"
+            class="form-control"
+            id="search"
+            placeholder="Rechercher un utilisateur par son nom"
+            onkeyup="searchUser()"                                      
+          />
+
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-select" aria-label="Default select example" id="sort-select">
+            <option selected>Trier par...</option>
+            <option value="1">Nom</option>
+            <option value="2">Téléphone</option>
+            <option value="3">Email</option>
+          </select>
+
+
+
+        </div>
+
+
+      </form>
+
+     
 
         <div class="container" id="container-table">
           <table class="table table-striped-columns">
