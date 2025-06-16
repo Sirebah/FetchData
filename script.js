@@ -12,11 +12,13 @@ const handleData = (data) => {
 
   // utilisation avec un map qui est une fonction des tableaux pour éviter les boucles
   const userAsTable = users.map(
-    (user) =>
+    // nous allons utiliser la destructuration pour récupérer les données
+    // de l'utilisateur et les afficher dans le tableau au lieu de faire de recuperer tout le user on recupère uniquement les propriétés dont on a besoin dans des variables avec les accolades
+    ({ name, phone, email }) =>
       `<tr>
-      <td>${user.name}</td>
-      <td>${user.phone}</td>
-      <td>${user.email}</td>
+      <td>${name}</td>
+      <td>${phone}</td>
+      <td>${email}</td>
     </tr>`
   );
   // Deprecated c'est à dire c'est revolu je peux utiliser map qui est fonction des tableaux pour transformer les données
@@ -44,17 +46,18 @@ function searchUser() {
 
   if (!tableBody.classList.contains("d-none")) {
     const userFilter = users
-      .filter((user) => {
-        return (
-          user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
-        );
-      })
+      // ici au nous avions fait la destructuration pour récupérer les données de l'utilisateur avec name
+      .filter(
+        ({ name }) =>
+          name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+      )
+      // ici nous avons utilisé la destructuration pour récupérer les données de l'utilisateur avec name, phone et email
       .map(
-        (user) =>
+        ({ name, phone, email }) =>
           `<tr>
-    <td>${user.name}</td>
-    <td>${user.phone}</td>
-    <td>${user.email}</td>
+        <td>${name}</td>
+        <td>${phone}</td>
+        <td>${email}</td>
   </tr>`
       );
     tableBody.innerHTML = userFilter.join("");
